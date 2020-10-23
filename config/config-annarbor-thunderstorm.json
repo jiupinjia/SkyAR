@@ -1,0 +1,22 @@
+{
+  "net_G": "coord_resnet50",
+  "ckptdir": "./checkpoints_G_coord_resnet50",
+
+  "input_mode": "video",
+  "datadir": "./test_videos/annarbor.mp4",
+  "skybox": "thunderstorm.mp4",
+
+  "in_size_w": 384,
+  "in_size_h": 384,
+  "out_size_w": 845,
+  "out_size_h": 480,
+
+  "skybox_cernter_crop": 0.6,
+  "auto_light_matching": true,
+  "relighting_factor": 0.5,
+  "recoloring_factor": 1.0,
+  "halo_effect": true,
+
+  "output_dir": "./eval_output",
+  "save_jpgs": false
+}
