@@ -6,7 +6,7 @@
 
 We propose a vision-based method for video sky replacement and harmonization, which can automatically generate realistic and dramatic sky backgrounds in videos with controllable styles. Different from previous sky editing methods that either focus on static photos or require inertial measurement units integrated in smartphones on shooting videos, our method is purely vision-based, without any requirements on the capturing devices, and can be well applied to either online or offline processing scenarios. Our method runs in real-time and is free of user interactions. We decompose this artistic creation process into a couple of proxy tasks including sky matting, motion estimation, and image blending. Experiments are conducted on videos diversely captured in the wild by handheld smartphones and dash cameras, and show high fidelity and good generalization of our method in both visual quality and lighting/motion dynamics.
 
-![](./gallery/demo-annarbor-castle-cat 00_00_00-00_00_05.gif)
+![](./gallery/demo-annarbor-castle-cat_00_00_00-00_00_05.gif)
 
 
 In this repository, we implement the complete training/testing pipeline of our paper based on Pytorch and provide several demo videos that can be used for reproduce the results reported in our paper. With the code, you can also try on your own data by following the instructions below.
@@ -49,7 +49,7 @@ unzip checkpoints_G_coord_resnet50.zip
 
 #### District 9 Ship
 
-![](./gallery/demo-canyon-district9ship-cat 00_00_00-00_00_01.gif)
+![](./gallery/demo-canyon-district9ship-cat_00_00_00-00_00_01.gif)
 
 ```bash
 python skymagic.py --path ./config/config-canyon-district9ship.json
@@ -57,7 +57,7 @@ python skymagic.py --path ./config/config-canyon-district9ship.json
 
 #### Super-moon on Ann Arbor
 
-![](./gallery/demo-annarbor-supermoon-cat 00_00_00-00_00_30.gif)
+![](./gallery/demo-annarbor-supermoon-cat_00_00_00-00_00_30.gif)
 
 ```bash
 python skymagic.py --path ./config/config-annarbor-supermoon.json
