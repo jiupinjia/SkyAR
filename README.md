@@ -43,7 +43,7 @@ git clone https://github.com/jiupinjia/SkyAR.git
 cd SkyAR
 ```
 
-2. Download the pretrained sky matting model from Google Drive](https://drive.google.com/drive/folders/1My8ziR-37GQ_Xk3cNRjH2v-x_3eb7ebf?usp=sharing), and unzip into the repo directory.
+2. Download the pretrained sky matting model from [Google Drive](https://drive.google.com/file/d/1COMROzwR4R_7mym6DL9LXhHQlJmJaV0J/view?usp=sharing), and unzip into the repo directory.
 
 ```bash
 unzip checkpoints_G_coord_resnet50.zip
