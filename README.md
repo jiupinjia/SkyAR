@@ -101,7 +101,7 @@ If you want to try on your own data, or want a different blending style, you can
 
 
 
-## <img src="gallery/colab_logo.png" alt="colab_logo" width="75"/>  Google Colab
+## Google Colab
 
 Here we also provide a minimal working example of the inference runtime of our method. Check out [this link](https://colab.research.google.com/drive/1-BqXD3EzDY6PHRdwb3cWayk2KictbFaz?usp=sharing) and see your result on Colab.
 
