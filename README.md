@@ -1,6 +1,6 @@
 # SkyAR 
 
-[Preprint](<https://arxiv.org/abs/2010.11800>) | [Project Page](<https://jiupinjia.github.io/skyar/>) 
+[Preprint](<https://arxiv.org/abs/2010.11800>) | [Project Page](<https://jiupinjia.github.io/skyar/>) | [Google Colab](<https://colab.research.google.com/drive/1-BqXD3EzDY6PHRdwb3cWayk2KictbFaz?usp=sharing>) 
 
 ### Official Pytorch implementation of the preprint paper "Castle in the Sky: Dynamic Sky Replacement and Harmonization in Videos", in arXiv:2010.11800.
 
@@ -98,6 +98,12 @@ If you want to try on your own data, or want a different blending style, you can
   "save_jpgs": false
 }
 ```
+
+
+
+## <img src="gallery/colab_logo.png" alt="colab_logo" width="75"/>  Google Colab
+
+Here we also provide a minimal working example of the inference runtime of our method. Check out [this link](https://colab.research.google.com/drive/1-BqXD3EzDY6PHRdwb3cWayk2KictbFaz?usp=sharing) and see your result on Colab.
 
 
 
