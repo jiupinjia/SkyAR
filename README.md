@@ -13,7 +13,7 @@ In this repository, we implement the complete training/testing pipeline of our p
 
 Our code is partially adapted from the project [pytorch-CycleGAN-and-pix2pix](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix), and the project [Python-Video-Stab](https://github.com/AdamSpannbauer/python_video_stab).
 
-
+<img src='./gallery/demo-annarbor-castle-cat_00_00_00-00_00_05.gif'>
 
 ### One-min video result
 
@@ -113,7 +113,6 @@ python train.py \
 
 
 
-
 ## Citation
 
 If you use this code for your research, please cite our paper:
@@ -126,3 +125,17 @@ If you use this code for your research, please cite our paper:
     journal={arXiv preprint arXiv:2010.11800},
 }
 ``````
+
+
+
+Shield: [![CC BY 4.0][cc-by-shield]][cc-by]
+
+This work is licensed under a
+[Creative Commons Attribution 4.0 International License][cc-by].
+
+[![CC BY 4.0][cc-by-image]][cc-by]
+
+[cc-by]: http://creativecommons.org/licenses/by/4.0/
+[cc-by-image]: https://i.creativecommons.org/l/by/4.0/88x31.png
+[cc-by-shield]: https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg
+
