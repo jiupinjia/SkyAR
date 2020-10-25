@@ -107,7 +107,9 @@ class SkyBox():
         curr_gray = np.array(255*curr_gray, dtype=np.uint8)
 
         mask = np.array(skymask[:,:,0] > 0.99, dtype=np.uint8)
-        mask = cv2.erode(mask, np.ones([20, 20]))
+
+        template_size = int(0.05*mask.shape[0])
+        mask = cv2.erode(mask, np.ones([template_size, template_size]))
 
         # ShiTomasi corner detection
         prev_pts = cv2.goodFeaturesToTrack(
@@ -129,12 +131,14 @@ class SkyBox():
 
         prev_pts, curr_pts = removeOutliers(prev_pts, curr_pts)
 
-        if curr_pts.shape[0] < 3:
+        if curr_pts.shape[0] < 10:
             print('no good point matched')
             return np.array([[1, 0, 0], [0, 1, 0]], dtype=np.float32)
 
-        m = cv2.estimateAffinePartial2D(
-            np.array(prev_pts), np.array(curr_pts))[0]
+        # limit the motion to translation + rotation
+        dxdyda = estimate_partial_transform((
+            np.array(prev_pts), np.array(curr_pts)))
+        m = build_transformation_matrix(dxdyda)
 
         return m
 
