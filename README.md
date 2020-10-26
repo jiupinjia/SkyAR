@@ -54,7 +54,7 @@ unzip checkpoints_G_coord_resnet50.zip
 
 ## To produce our results
 
-#### District 9 Ship
+#### District 9 Ship ([video source](https://www.youtube.com/watch?v=forZrqljb88))
 
 ![](./gallery/demo-canyon-district9ship-cat_00_00_00-00_00_01.gif)
 
@@ -123,6 +123,16 @@ python train.py \
 	--batch_size 8 \
 	--net_G coord_resnet50
 ```
+
+
+
+## Limitations
+
+The limitation of our method is twofold. First, since our sky matting network is only trained on daytime images, our method may fail to detect the sky regions on nighttime videos. Second, when there are no sky pixels during a certain period of time in a video, or there are no textures in the sky, the motion of the sky background cannot be accurately modeled. 
+
+The figure below shows two failure cases of our method. The top row shows an input frame from [BDD100K](https://bair.berkeley.edu/blog/2018/05/30/bdd/) at nighttime (left) and the blending result (middle) produced by wrongly detected sky regions (right). The second row shows an input frame (left, [video source](https://www.youtube.com/watch?v=eK4KqeTFqEA)), and the incorrect movement synchronization results between foreground and rendered background (middle and right).
+
+![](gallery/failurecases.jpg)
 
 
 
