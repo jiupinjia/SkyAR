@@ -5,8 +5,6 @@ import functools
 from torchvision import models
 from torch.optim import lr_scheduler
 import math
-import utils
-import matplotlib.pyplot as plt
 import numpy as np
 
 # Decide which device we want to run on

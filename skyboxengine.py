@@ -2,6 +2,7 @@ from skybox_utils import *
 from cv2.ximgproc import guidedFilter
 import synrain
 import os
+from train_motion_estimate import MotionEstimator
 
 class SkyBox():
 
@@ -18,7 +19,6 @@ class SkyBox():
 
         self.frame_id = 0
 
-
     def tile_skybox_img(self, imgtile):
 
         screen_y1 = int(imgtile.shape[0] / 2 - self.args.out_size_h / 2)
@@ -29,7 +29,6 @@ class SkyBox():
             [imgtile[:,screen_x1:,:], imgtile[:,0:screen_x1,:]], axis=1)
 
         return imgtile
-
 
     def load_skybox(self):
 
@@ -66,7 +65,6 @@ class SkyBox():
                 skybox_imgx2 = self.tile_skybox_img(imgtile)
                 self.skybox_imgx2[i,:] = skybox_imgx2
 
-
     def skymask_refinement(self, G_pred, img):
 
         r, eps = 20, 0.01
@@ -76,7 +74,6 @@ class SkyBox():
             [refined_skymask, refined_skymask, refined_skymask], axis=-1)
 
         return np.clip(refined_skymask, a_min=0, a_max=1)
-
 
     def get_skybg_from_box(self, m):
 
@@ -93,7 +90,6 @@ class SkyBox():
         self.frame_id += 1
 
         return np.array(skybg, np.float32)/255.
-
 
     def skybox_tracking(self, frame, frame_prev, skymask):
 
@@ -138,10 +134,68 @@ class SkyBox():
         # limit the motion to translation + rotation
         dxdyda = estimate_partial_transform((
             np.array(prev_pts), np.array(curr_pts)))
+
         m = build_transformation_matrix(dxdyda)
 
         return m
 
+    def skybox_tracking_with_motion_estimate(self, frame, frame_prev, skymask):
+
+        prev_gray = cv2.cvtColor(frame_prev, cv2.COLOR_RGB2GRAY)
+        prev_gray = np.array(255*prev_gray, dtype=np.uint8)
+        curr_gray = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
+        curr_gray = np.array(255*curr_gray, dtype=np.uint8)
+
+        mask = np.array(skymask[:,:,0] > 0.99, dtype=np.uint8)
+
+        template_size = int(0.05*mask.shape[0])
+        mask = cv2.erode(mask, np.ones([template_size, template_size]))
+
+        front_mask = np.array(skymask[:, :, 0] < 0.9, dtype=np.uint8)
+        flow = cv2.calcOpticalFlowFarneback(prev_gray * front_mask, curr_gray * front_mask, None, 0.5, 3, 15, 3, 5, 1.2, 0)
+        checkpoint = './motion_estimator_checkpoint/BEST_Resnet50_Motion_Estimate.pth.tar'
+        # Load model
+        checkpoint = torch.load(checkpoint)
+        etimator = checkpoint['etimator']
+        device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        etimator = etimator.to(device)
+        dxdyda_es = etimator(torch.FloatTensor(flow).permute(2,0,1).unsqueeze(0).to(device))
+
+        dxdyda_es = dxdyda_es.cpu().detach().numpy()
+        dxdyda_new = [dxdyda_es[0,0],dxdyda_es[0,1],dxdyda_es[0,2]]
+        # ShiTomasi corner detection
+        prev_pts = cv2.goodFeaturesToTrack(
+            prev_gray, mask=mask, maxCorners=200,
+            qualityLevel=0.01, minDistance=30, blockSize=3)
+
+        if prev_pts is None:
+            print('no feature point detected')
+            return np.array([[1, 0, 0], [0, 1, 0]], dtype=np.float32)
+
+        # Calculate optical flow (i.e. track feature points)
+        curr_pts, status, err = cv2.calcOpticalFlowPyrLK(
+            prev_gray, curr_gray, prev_pts, None)
+        # Filter only valid points
+        idx = np.where(status == 1)[0]
+        if idx.size == 0:
+            print('no good point matched')
+            return np.array([[1, 0, 0], [0, 1, 0]], dtype=np.float32)
+
+        prev_pts, curr_pts = removeOutliers(prev_pts, curr_pts)
+
+        if curr_pts.shape[0] < 10:
+            print('no good point matched')
+            return np.array([[1, 0, 0], [0, 1, 0]], dtype=np.float32)
+
+        # limit the motion to translation + rotation
+        dxdyda = estimate_partial_transform((
+            np.array(prev_pts), np.array(curr_pts)))
+
+        print([dxdyda, dxdyda_new])
+
+        m = build_transformation_matrix(dxdyda_new)
+
+        return m
 
     def relighting(self, img, skybg, skymask):
 
@@ -164,7 +218,6 @@ class SkyBox():
 
         return img
 
-
     def halo(self, syneth, skybg, skymask):
 
         # reflection
@@ -176,10 +229,10 @@ class SkyBox():
 
         return syneth_with_halo
 
-
     def skyblend(self, img, img_prev, skymask):
 
-        m = self.skybox_tracking(img, img_prev, skymask)
+        # m = self.skybox_tracking(img, img_prev, skymask)
+        m = self.skybox_tracking_with_motion_estimate(img, img_prev, skymask)
 
         skybg = self.get_skybg_from_box(m)
 

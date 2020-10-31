@@ -14,7 +14,7 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
 parser = argparse.ArgumentParser(description='SKYAR')
-parser.add_argument('--path', type=str, default='./config/config-canyon-jupiter.json', metavar='str',
+parser.add_argument('--path', type=str, default='./config/config-annarbor-castle.json', metavar='str',
                     help='configurations')
 
 class SkyFilter():
@@ -54,7 +54,6 @@ class SkyFilter():
         self.net_G.eval()
 
 
-
     def write_video(self, img_HD, syneth):
 
         frame = np.array(255.0 * syneth[:, :, ::-1], dtype=np.uint8)
@@ -68,7 +67,6 @@ class SkyFilter():
         cv2.waitKey(1)
 
 
-
     def synthesize(self, img_HD, img_HD_prev):
 
         h, w, c = img_HD.shape
@@ -80,7 +78,7 @@ class SkyFilter():
 
         with torch.no_grad():
             G_pred = self.net_G(img.to(device))
-            G_pred = torch.nn.functional.interpolate(G_pred, (h, w), mode='bicubic', align_corners=False)
+            G_pred = torch.nn.functional.interpolate(G_pred, (h, w), mode='bilinear', align_corners=False)   #bicubic
             G_pred = G_pred[0, :].permute([1, 2, 0])
             G_pred = torch.cat([G_pred, G_pred, G_pred], dim=-1)
             G_pred = np.array(G_pred.detach().cpu())
@@ -93,7 +91,6 @@ class SkyFilter():
         return syneth, G_pred, skymask
 
 
-
     def cvtcolor_and_resize(self, img_HD):
 
         img_HD = cv2.cvtColor(img_HD, cv2.COLOR_BGR2RGB)
@@ -101,7 +98,6 @@ class SkyFilter():
         img_HD = cv2.resize(img_HD, (self.out_size_w, self.out_size_h))
 
         return img_HD
-
 
 
     def run_imgseq(self):
@@ -132,8 +128,6 @@ class SkyFilter():
             print('processing: %d / %d ...' % (idx, len(img_names)))
 
             img_HD_prev = img_HD
-
-
 
 
     def run_video(self):
@@ -171,7 +165,6 @@ class SkyFilter():
 
             else:  # if reach the last frame
                 break
-
 
     def run(self):
         if self.input_mode == 'seq':
