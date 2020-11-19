@@ -42,7 +42,7 @@ class SkyBox():
 
             self.skybox_img = cv2.resize(
                 skybox_img, (self.args.out_size_w, self.args.out_size_h))
-            cc = 1. / self.args.skybox_cernter_crop
+            cc = 1. / self.args.skybox_center_crop
             imgtile = cv2.resize(
                 skybox_img, (int(cc * self.args.out_size_w),
                              int(cc*self.args.out_size_h)))
@@ -53,7 +53,7 @@ class SkyBox():
             # video backgroud
             cap = cv2.VideoCapture(os.path.join(r'./skybox', self.args.skybox))
             m_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-            cc = 1. / self.args.skybox_cernter_crop
+            cc = 1. / self.args.skybox_center_crop
             self.skybox_imgx2 = np.zeros(
                 [m_frames, int(cc*self.args.out_size_h),
                  int(cc*self.args.out_size_w), 3], np.uint8)
