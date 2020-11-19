@@ -47,7 +47,8 @@ class SkyFilter():
     def load_model(self):
 
         print('loading the best checkpoint...')
-        checkpoint = torch.load(os.path.join(self.ckptdir, 'best_ckpt.pt'))
+        checkpoint = torch.load(os.path.join(self.ckptdir, 'best_ckpt.pt'),
+                                map_location=None if torch.cuda.is_available() else device)
         # checkpoint = torch.load(os.path.join(self.ckptdir, 'last_ckpt.pt'))
         self.net_G.load_state_dict(checkpoint['model_G_state_dict'])
         self.net_G.to(device)

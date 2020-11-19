@@ -8,7 +8,10 @@ import glob
 import random
 
 import torch
-torch.cuda.current_device()
+
+if torch.cuda.is_available():
+    torch.cuda.current_device()
+
 import torchvision.transforms.functional as TF
 from torch.utils.data import Dataset, DataLoader, Subset
 from torchvision import transforms, utils
