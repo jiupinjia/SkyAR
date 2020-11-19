@@ -11,7 +11,7 @@
   "out_size_w": 845,
   "out_size_h": 480,
 
-  "skybox_cernter_crop": 0.5,
+  "skybox_center_crop": 0.5,
   "auto_light_matching": false,
   "relighting_factor": 0.6,
   "recoloring_factor": 0.5,
