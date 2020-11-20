@@ -223,7 +223,6 @@ class SkyDetector():
             print('Begin evaluation...')
             self._clear_cache()
             self.is_training = False
-            # Note that do not set model to evaluate mode
             self.net_G.eval()
 
             # Iterate over data.
