@@ -38,7 +38,7 @@ class SkyFilter():
         self.video_writer_cat = cv2.VideoWriter('demo-cat.mp4', cv2.VideoWriter_fourcc(*'MP4V'),
                                             20.0, (2*args.out_size_w, args.out_size_h))
 
-        if os.path.exists(args.output_dir) is False:
+        if args.save_jpgs and os.path.exists(args.output_dir) is False:
             os.mkdir(args.output_dir)
 
         self.save_jpgs = args.save_jpgs
