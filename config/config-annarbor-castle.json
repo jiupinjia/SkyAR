@@ -17,6 +17,6 @@
   "recoloring_factor": 0.5,
   "halo_effect": true,
 
-  "output_dir": "./eval_output",
+  "output_dir": "./jpg_output",
   "save_jpgs": false
 }
