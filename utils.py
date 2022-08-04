@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import cv2
-from skimage.measure import compare_ssim as sk_cpt_ssim
+from skimage.metrics import structural_similarity as sk_cpt_ssim
 
 import os
 import glob
