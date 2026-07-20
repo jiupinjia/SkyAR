@@ -26,7 +26,7 @@ class Rain():
         ret, frame = self.cap.read()
         if ret:
             rain_layer = frame
-        else: # if reach the last frame, read from the begining
+        else: # if reach the last frame, read from the beginning
             self.cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
             ret, frame = self.cap.read()
             rain_layer = frame
