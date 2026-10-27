@@ -141,11 +141,14 @@ The figure below shows two failure cases of our method. The top row shows an inp
 If you use this code for your research, please cite our paper:
 
 ``````
-@inproceedings{zou2020skyar,
-    title={Castle in the Sky: Dynamic Sky Replacement and Harmonization in Videos},
-    author={Zhengxia Zou},
-    year={2020},
-    journal={arXiv preprint arXiv:2010.11800},
+@article{zou2022castle,
+  title={Castle in the sky: Dynamic sky replacement and harmonization in videos},
+  author={Zou, Zhengxia and Zhao, Rui and Shi, Tianyang and Qiu, Shuang and Shi, Zhenwei},
+  journal={IEEE Transactions on Image Processing},
+  volume={31},
+  pages={5067--5078},
+  year={2022},
+  publisher={IEEE}
 }
 ``````
 
